@@ -63,8 +63,6 @@ static void parse_headers(char *text, Headers *h) {
     }
 }
 
-test 
-
 int main(void) {
 
     char raw[] =

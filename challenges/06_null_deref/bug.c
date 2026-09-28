@@ -46,16 +46,18 @@ static char *skip_ws(char *s) {
 }
 
 static void parse_headers(char *text, Headers *h) {
+    // strtok: 문자열을 특정 구분자(delimiter)를 기준으로 잘라서 토큰(token) 단위로 나누는 함수
     for (char *line = strtok(text, "\n"); line != NULL; line = strtok(NULL, "\n")) {
+        // strchr: 문자열에서 특정 문자 하나를 처음으로 찾아주는 함수
         char *colon = strchr(line, ':');   
-
+        if (colon == NULL) continue;
         *colon = '\0';                    
         char *key = line;
         char *val = skip_ws(colon + 1);
 
+        h->keys[h->count] = key;
+        h->vals[h->count] = val;
         if (h->count < MAX_HEADERS) {
-            h->keys[h->count] = key;
-            h->vals[h->count] = val;
             h->count++;
         }
     }
@@ -70,7 +72,7 @@ int main(void) {
         "User-Agent: memdbg-cli\n";
 
     Headers h = { .count = 0 };
-    parse_headers(raw, &h);                
+    parse_headers(raw, &h);
 
     printf("parsed %d headers\n", h.count);
     for (int i = 0; i < h.count; i++)

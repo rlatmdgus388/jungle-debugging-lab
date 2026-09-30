@@ -64,6 +64,8 @@ static void eb_snapshot(EditBuffer *e) {
     if (e->undo_n < MAX_UNDO) e->undo[e->undo_n++] = e->data;
 }
 
+test;
+
 static void eb_grow(EditBuffer *e, size_t need) {
     size_t nc = e->cap;
     while (nc < need) nc *= 2;

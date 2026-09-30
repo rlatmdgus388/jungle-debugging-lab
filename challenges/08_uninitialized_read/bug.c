@@ -96,6 +96,7 @@ static long row_sum(int **rows, int nrows) {
     return total;
 }
 
+test
 int main(void) {
     dirty_heap();
 

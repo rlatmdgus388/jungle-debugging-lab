@@ -38,7 +38,7 @@
 /* 필요한 총 바이트 수 = 모든 조각 길이 합 + 종료 문자 1 */
 static size_t joined_size(const char *const *parts, int n) {
     size_t total = 1;                        /* '\0' 자리 */
-    for (int i = 0; i < n - 1; i++) {        
+    for (int i = 0; i < n; i++) {        
         total += strlen(parts[i]);
     }
     return total;
@@ -60,11 +60,14 @@ static char *join(const char *const *parts, int n) {
 
 int main(void) {
     
-    static char body[200000];
+    static char body[200000];   
     memset(body, 'x', sizeof body - 1);
     body[sizeof body - 1] = '\0';
 
     const char *parts[] = { "GET ", "/index.html", " HTTP/1.1\r\n\r\n", body };
+    // sizeof(parts): 원소 4개 x 문자열 포인터(8바이트) = 32바이트
+    // sizeof(parts[0]): 배열의 첫 번째 원소의 사이즈. 즉, char *의 사이즈 = 8바이트
+    // n = 4
     int n = (int)(sizeof(parts) / sizeof(parts[0]));
 
     char *msg = join(parts, n);              /* 복사 중 힙 오버플로 → 크래시 */
